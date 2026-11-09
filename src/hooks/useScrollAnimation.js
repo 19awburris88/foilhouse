@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 const prefersReducedMotion =
-  typeof window !== 'undefined' &&
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 export function useScrollAnimation(threshold = 0.12) {
   const ref = useRef(null);
@@ -19,7 +18,7 @@ export function useScrollAnimation(threshold = 0.12) {
           observer.disconnect();
         }
       },
-      { threshold }
+      { threshold },
     );
     observer.observe(el);
     return () => observer.disconnect();
