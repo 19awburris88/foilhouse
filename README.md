@@ -1,12 +1,11 @@
 # Foilhouse
 
-Concept storefront for **Foilhouse**, a fictional collector-run card house selling Pokémon, One Piece, Dragon Ball and sports cards: sealed product, singles, graded slabs, preorders, live breaks, grading and buylist. Built with React + Vite, deployed on Netlify, with Square checkout ready behind a flag.
+Concept storefront for **Foilhouse**, a fictional collector-run card house selling Pokémon, One Piece, Dragon Ball and sports cards: sealed product, singles, graded slabs, preorders, live breaks, grading and buylist. Built with React + Vite and deployed on Netlify as a static site. It's a demo: there are no payments, accounts, or real contact details.
 
 ## Tech Stack
 
 - **Frontend:** React 19, React Router 7, Vite 8, plain CSS (design tokens in `src/styles.css`)
-- **Payments:** Square payment links via Netlify Functions (optional)
-- **Deployment:** Netlify
+- **Deployment:** Netlify (static build, no serverless functions)
 
 ## Features
 
@@ -28,44 +27,29 @@ Photos are free-license stock photography from [Unsplash](https://unsplash.com/l
 
 Card artwork shown in photos is the property of its respective owners. Foilhouse is fictional and not affiliated with any brand.
 
-## Demo vs. live checkout
+## Demo only
 
-The catalog lives in `src/data/catalog.js`. By default, checkout is a demo that clears the bag and shows the confirmation page. Set `VITE_SQUARE_LIVE=true` to send the bag to `/api/checkout` instead. That requires Square catalog variation IDs on each product (`variationId`) and the Square env vars below.
+Everything runs in the browser with no backend:
+
+- The catalog lives in `src/data/catalog.js`.
+- Checkout clears the bag and shows a confirmation page. No payment is taken.
+- The drop-alert signup and sell-to-us form show a confirmation but send nothing.
+- Social icons are placeholders, and there are no real emails, phone numbers or accounts.
 
 ## Local Development
 
-**Prerequisites:** Node 18+, a Square developer account
+**Prerequisites:** Node 18+
 
-1. Clone the repo and install dependencies:
-
-   ```bash
-   git clone git@github.com:19awburris88/foilhouse.git
-   cd foilhouse
-   npm install
-   ```
-
-2. Copy the env example and fill in your Square credentials:
-
-   ```bash
-   cp .env.example .env
-   ```
-
-   | Variable | Where to find it |
-   |---|---|
-   | `SQUARE_ACCESS_TOKEN` | [Square Developer Dashboard](https://developer.squareup.com) → your app → Credentials → Production |
-   | `SQUARE_LOCATION_ID` | Square Dashboard → Account & Settings → Business locations |
-   | `SQUARE_ENVIRONMENT` | `sandbox` for testing, `production` when live |
-
-3. Run the dev server with Netlify Functions:
-
-   ```bash
-   npm run dev            # demo mode, http://localhost:5173
-   npx netlify dev        # with Netlify Functions, http://localhost:8888
-   ```
+```bash
+git clone git@github.com:19awburris88/foilhouse.git
+cd foilhouse
+npm install
+npm run dev        # http://localhost:5173
+```
 
 ## Deployment
 
-Pushes to `main` trigger an automatic Netlify build and deploy. Environment variables (`SQUARE_ACCESS_TOKEN`, `SQUARE_LOCATION_ID`) must be set in the Netlify dashboard under **Site configuration → Environment variables**.
+Pushes to `main` trigger an automatic Netlify build (`npm run build`, publish `dist`). No environment variables are needed.
 
 ## Project Structure
 
@@ -81,6 +65,4 @@ src/
   hooks/               # useScrollAnimation, useCountdown
 public/
   images/              # Self-hosted photos + CREDITS.md
-netlify/
-  functions/           # catalog + checkout (Square)
 ```

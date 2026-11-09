@@ -1,16 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiX, FiMinus, FiPlus, FiAlertTriangle } from 'react-icons/fi';
 import { useCart } from '../CartContext';
 import { fmt, fmtDate, productById, FREE_SHIPPING_CENTS } from '../data/catalog';
 import ProductArt from './ProductArt';
 
-const LIVE_CHECKOUT = import.meta.env.VITE_SQUARE_LIVE === 'true';
-
 export default function CartDrawer() {
   const { items, removeItem, updateQuantity, clear, total, count, isOpen, setIsOpen } = useCart();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,28 +25,11 @@ export default function CartDrawer() {
   const remaining = Math.max(0, FREE_SHIPPING_CENTS - total);
   const progress = Math.min(100, (total / FREE_SHIPPING_CENTS) * 100);
 
-  const checkout = async () => {
-    setError(null);
-    if (!LIVE_CHECKOUT) {
-      clear();
-      setIsOpen(false);
-      navigate('/order-success?demo=1');
-      return;
-    }
-    setLoading(true);
-    try {
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? 'Checkout failed');
-      window.location.href = data.url;
-    } catch (err) {
-      setError(err.message);
-      setLoading(false);
-    }
+  // Demo store: checkout never takes payment.
+  const checkout = () => {
+    clear();
+    setIsOpen(false);
+    navigate('/order-success');
   };
 
   return (
@@ -149,14 +128,10 @@ export default function CartDrawer() {
                 <span>Subtotal</span>
                 <strong>{fmt(total)}</strong>
               </div>
-              {error && <p className="form-error">{error}</p>}
-              <button className="btn btn--accent btn--block" onClick={checkout} disabled={loading}>
-                {loading ? 'Opening secure checkout…' : 'Checkout'}
+              <button className="btn btn--accent btn--block" onClick={checkout}>
+                Checkout
               </button>
-              <p className="drawer__fine">
-                Taxes calculated at checkout. All TCG sales final.
-                {!LIVE_CHECKOUT && ' Demo store: no payment is taken.'}
-              </p>
+              <p className="drawer__fine">Demo store: no payment is taken and nothing ships.</p>
             </footer>
           </>
         )}

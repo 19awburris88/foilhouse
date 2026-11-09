@@ -33,8 +33,6 @@ export function CartProvider({ children }) {
         ...prev,
         {
           id: product.id,
-          // Square catalog variation id when running against a live catalog.
-          variationId: product.variationId ?? product.id,
           name: product.name,
           price: product.price,
           status: product.status,

@@ -128,7 +128,7 @@ export default function Footer() {
 
         <div className="footer__base">
           <p>© 2026 Foilhouse Collectibles. A fictional concept store.</p>
-          <p className="mono">Secure checkout by Square</p>
+          <p className="mono">Demo store · No payments taken</p>
         </div>
       </div>
       <div className="footer__wordmark" aria-hidden="true">
