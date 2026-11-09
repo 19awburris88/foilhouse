@@ -39,8 +39,8 @@ The catalog lives in `src/data/catalog.js`. By default, checkout is a demo that 
 1. Clone the repo and install dependencies:
 
    ```bash
-   git clone git@github.com:19awburris88/the-money-mill.git
-   cd the-money-mill
+   git clone git@github.com:19awburris88/foilhouse.git
+   cd foilhouse
    npm install
    ```
 
